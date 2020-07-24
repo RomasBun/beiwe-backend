@@ -31,10 +31,10 @@ def get_surveys_and_schedules(now):
     """ Mostly this function exists to reduce namespace clutter. """
     # schedule time is in the past, with participants that have fcm tokens.
     query = ScheduledEvent.objects.filter(
-            scheduled_time__lte=now, participant__fcm_tokens__isnull=False
-        ).values_list(
-            "survey__object_id", "participant__fcm_tokens__token", "pk"
-        )
+        scheduled_time__lte=now, participant__fcm_tokens__isnull=False
+    ).values_list(
+        "survey__object_id", "participant__fcm_tokens__token", "pk"
+    )
 
     # defaultdicts = clean code, convert to dicts at end.
     # we need a mapping of fcm tokens (a proxy for participants) to surveys and schedule ids (pks)
