@@ -66,7 +66,7 @@ def view_study(study_id=None):
         tracking_survey_ids=study.get_survey_ids_and_object_ids('tracking_survey'),
         study_fields=[escape(f) for f in study.fields.all().values_list('field_name', flat=True)],
         interventions=[escape(s) for s in study.interventions.all().values_list("name", flat=True)],
-        page_location='study_landing',
+        page_location=escape('study_landing'),
         study_id=study_id,
         readonly=not researcher.check_study_admin(study_id) and not researcher.site_admin,
     )
