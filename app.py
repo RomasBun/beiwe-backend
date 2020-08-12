@@ -3,6 +3,7 @@ from datetime import datetime
 
 import jinja2
 from flask import Flask, redirect, render_template
+from flask_wtf import csrf
 from flask_wtf.csrf import CSRFProtect
 from raven.contrib.flask import Sentry
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -44,6 +45,17 @@ app.register_blueprint(copy_study_api.copy_study_api)
 app.register_blueprint(data_pipeline_api.data_pipeline_api)
 app.register_blueprint(dashboard_api.dashboard_api)
 app.register_blueprint(push_notifications_api.push_notifications_api)
+
+# exempt all APIs with their own authentication from CSRF protection
+csrf.exempt(mobile_api.mobile_api)
+csrf.exempt(admin_api.admin_api)
+csrf.exempt(survey_api.survey_api)
+csrf.exempt(study_api.study_api)
+csrf.exempt(data_access_api.data_access_api)
+csrf.exempt(copy_study_api.copy_study_api)
+csrf.exempt(data_pipeline_api.data_pipeline_api)
+csrf.exempt(dashboard_api.dashboard_api)
+csrf.exempt(push_notifications_api.push_notifications_api)
 
 # Sentry is not required, that was too much of a hassle
 if SENTRY_ELASTIC_BEANSTALK_DSN:
